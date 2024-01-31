@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface Message {
   text: string;
@@ -8,6 +8,7 @@ interface Message {
 const ChatDemo: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState<string>('');
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const addMessage = (text: string, isUser: boolean = false) => {
     setMessages((prevMessages) => [...prevMessages, { text, isUser }]);
@@ -24,9 +25,17 @@ const ChatDemo: React.FC = () => {
     setInputText('');
   };
 
+  useEffect(() => {
+    // Scroll to the bottom when messages change
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <div
+        ref={messagesContainerRef}
         style={{
           flex: 1,
           overflowY: 'scroll',
