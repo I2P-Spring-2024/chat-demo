@@ -33,32 +33,39 @@ const ChatDemo: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-gray-900">
       <div
         ref={messagesContainerRef}
-        className="flex-1 overflow-y-scroll border-gray-300"
+        className="flex-1 overflow-y-scroll bg-gray-900 p-10"
       >
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`flex ${message.isUser ? 'justify-end' : 'justify-start ml-auto'} ${
-              message.isUser ? 'mb-0 text-blue-500' : 'text-green-500'
-            }`}
-            
+            className={`flex ${
+              message.isUser ? 'justify-end' : 'justify-start'
+            } mb-2`}
           >
-            {message.text}
+            <div
+              className={`${
+                message.isUser
+                  ? '  bg-purple-950 text-white rounded-bl-lg rounded-tr-lg rounded-tl-lg'
+                  : ' bg-fuchsia-950 text-white rounded-br-lg rounded-tr-lg rounded-tl-lg'
+              } p-2 max-w-xs`}
+            >
+              {message.text}
+            </div>
           </div>
         ))}
       </div>
-      <form onSubmit={handleSubmit} className="p-4 border-t border-gray-300">
+      <form onSubmit={handleSubmit} className="p-10 border-t bg-gray-800">
         <input
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Type your message..."
-          className="w-3/4 p-2"
+          className="w-3/4 p-3 rounded-lg  border-gray-300  bg-gray-900 text-white"
         />
-        <button type="submit" className="ml-2">
+        <button type="submit" className="ml-2 text-white">
           Send
         </button>
       </form>
