@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+
 interface Message {
   text: string;
   isUser: boolean;
@@ -19,8 +20,8 @@ const ChatDemo: React.FC = () => {
     if (inputText.trim() === '') return;
 
     // Simulate AI response (replace with actual API call)
-    addMessage(`User: ${inputText}`, true);
-    addMessage('AI: [AI Response]', false);
+    addMessage(`${inputText}`, true);
+    addMessage('[AI Response]', false);
 
     setInputText('');
   };
@@ -66,7 +67,7 @@ const ChatDemo: React.FC = () => {
           placeholder="Type your message..."
           className="w-3/4 p-3 rounded-lg  border-gray-300  bg-gray-900 text-white"
         />
-        <button type="submit" className="ml-2 text-white">
+        <button type="submit" className=" font-semibold p-3 ml-5 text-white rounded-full bg-orange-500">
           Send
         </button>
       </form>
