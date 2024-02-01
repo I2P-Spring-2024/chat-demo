@@ -49,8 +49,9 @@ const ChatDemo: React.FC = () => {
               className={`${
                 message.isUser
                   ? '  bg-purple-950 text-white rounded-bl-lg rounded-tr-lg rounded-tl-lg'
-                  : ' bg-fuchsia-950 text-white rounded-br-lg rounded-tr-lg rounded-tl-lg'
-              } p-2 whitespace-pre-wrap max-w-xl break-words`}
+                  : ' bg-fuchsia-950 text-white rounded-br-lg rounded-tr-lg rounded-tl-lg' 
+              } p-2 max-w-xl break-words text-left`}
+              
             >
               {message.text}
             </div>
