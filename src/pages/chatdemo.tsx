@@ -36,12 +36,15 @@ const ChatDemo: React.FC = () => {
     <div className="flex flex-col h-screen">
       <div
         ref={messagesContainerRef}
-        className="flex-1 overflow-y-scroll p-4 border border-gray-300"
+        className="flex-1 overflow-y-scroll border-gray-300"
       >
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`mb-4 ${message.isUser ? 'text-blue-500' : 'text-green-500'}`}
+            className={`flex ${message.isUser ? 'justify-end' : 'justify-start ml-auto'} ${
+              message.isUser ? 'mb-0 text-blue-500' : 'text-green-500'
+            }`}
+            
           >
             {message.text}
           </div>
