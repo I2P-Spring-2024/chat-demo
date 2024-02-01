@@ -51,7 +51,7 @@ const ChatDemo: React.FC = () => {
                 message.isUser
                   ? '  bg-purple-950 text-white rounded-bl-lg rounded-tr-lg rounded-tl-lg'
                   : ' bg-fuchsia-950 text-white rounded-br-lg rounded-tr-lg rounded-tl-lg' 
-              } p-2 max-w-xl break-words text-left`}
+              } p-2 max-w-[85%] break-words text-left`}
               
             >
               {message.text}
