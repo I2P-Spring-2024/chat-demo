@@ -33,31 +33,29 @@ const ChatDemo: React.FC = () => {
   }, [messages]);
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="flex flex-col h-screen">
       <div
         ref={messagesContainerRef}
-        style={{
-          flex: 1,
-          overflowY: 'scroll',
-          padding: '10px',
-          border: '1px solid #ccc',
-        }}
+        className="flex-1 overflow-y-scroll p-4 border border-gray-300"
       >
         {messages.map((message, index) => (
-          <div key={index} style={{ marginBottom: '10px', color: message.isUser ? 'blue' : 'green' }}>
+          <div
+            key={index}
+            className={`mb-4 ${message.isUser ? 'text-blue-500' : 'text-green-500'}`}
+          >
             {message.text}
           </div>
         ))}
       </div>
-      <form onSubmit={handleSubmit} style={{ padding: '10px', borderTop: '1px solid #ccc' }}>
+      <form onSubmit={handleSubmit} className="p-4 border-t border-gray-300">
         <input
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Type your message..."
-          style={{ width: '80%', padding: '5px' }}
+          className="w-3/4 p-2"
         />
-        <button type="submit" style={{ marginLeft: '5px' }}>
+        <button type="submit" className="ml-2">
           Send
         </button>
       </form>
