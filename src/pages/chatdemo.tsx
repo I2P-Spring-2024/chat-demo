@@ -24,11 +24,11 @@ const ChatDemo: React.FC = () => {
       if (inputText.trim() === '' || responseInProgress) return;
 
       setResponseInProgress(true);
+      setInputText('');
       addMessage(`${inputText}`, true);
       const chatResponse = await axios.post(chatIntegrationURL, inputText);
       addMessage(`${chatResponse.data}`, false);
 
-      setInputText('');
     } catch (err) {
       console.error(err);
       addMessage("ERROR OCCURED WHILE SENDING MESSAGE");
