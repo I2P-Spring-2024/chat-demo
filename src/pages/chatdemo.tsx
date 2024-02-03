@@ -40,7 +40,7 @@ const ChatDemo: React.FC = () => {
     <div className="flex flex-col h-screen bg-gray-900">
       <div
         ref={messagesContainerRef}
-        className="flex-1 overflow-y-scroll bg-gray-900 p-10"
+        className="flex-1 overflow-y-auto bg-gray-900 p-10"
       >
         {messages.map((message, index) => (
           <div
