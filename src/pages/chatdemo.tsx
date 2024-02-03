@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-
+import axios from 'axios';
 
 interface Message {
   text: string;
   isUser: boolean;
 }
+
+const chatIntegrationURL = "https://ydf4hgmrbj.execute-api.us-east-2.amazonaws.com/chat-integration";
 
 const ChatDemo: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -15,13 +17,14 @@ const ChatDemo: React.FC = () => {
     setMessages((prevMessages) => [...prevMessages, { text, isUser }]);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (inputText.trim() === '') return;
 
     // Simulate AI response (replace with actual API call)
-    addMessage(`${inputText}`, true);
-    addMessage('[AI Response]', false);
+    addMessage(`User: ${inputText}`, true);
+    const chatResponse = await axios.post(chatIntegrationURL, inputText);
+    addMessage('AI: [AI Response]', false);
 
     setInputText('');
   };
