@@ -11,6 +11,7 @@ const chatIntegrationURL = "https://ydf4hgmrbj.execute-api.us-east-2.amazonaws.c
 const ChatDemo: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState<string>('');
+  const [responseInProgress, setResponseInProgress] = useState<boolean>(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const addMessage = (text: string, isUser: boolean = false) => {
@@ -19,13 +20,21 @@ const ChatDemo: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputText.trim() === '') return;
+    try {
+      if (inputText.trim() === '' || responseInProgress) return;
 
-    addMessage(`${inputText}`, true);
-    const chatResponse = await axios.post(chatIntegrationURL, inputText);
-    addMessage(`${chatResponse.data}`, false);
+      setResponseInProgress(true);
+      addMessage(`${inputText}`, true);
+      const chatResponse = await axios.post(chatIntegrationURL, inputText);
+      addMessage(`${chatResponse.data}`, false);
 
-    setInputText('');
+      setInputText('');
+    } catch (err) {
+      console.error(err);
+      addMessage("ERROR OCCURED WHILE SENDING MESSAGE");
+    } finally {
+      setResponseInProgress(false);
+    }
   };
 
   useEffect(() => {
