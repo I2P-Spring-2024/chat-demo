@@ -21,7 +21,6 @@ const ChatDemo: React.FC = () => {
     e.preventDefault();
     if (inputText.trim() === '') return;
 
-    // Simulate AI response (replace with actual API call)
     addMessage(`${inputText}`, true);
     const chatResponse = await axios.post(chatIntegrationURL, inputText);
     addMessage(`${chatResponse.data}`, false);
