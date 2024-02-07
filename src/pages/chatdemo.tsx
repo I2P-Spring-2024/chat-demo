@@ -34,12 +34,18 @@ const ChatDemo: React.FC = () => {
       if (inputText.trim() === '' || responseInProgress) return;
 
       // console.log("Message History needed here: ", historyMessages);
-      // Optional joining of the history message array into one string: const allMessagesString = historyMessages.join(' ');
+      // TODOs:
+      // TODO1: modify backend to receive the current user's message as well as the History message log 
+      // TODO2: send the curr user's message and Hist log on line 47
+      // Note: Optional joining of the history message array into one string: const allMessagesString = historyMessages.join(' ');
       
       setResponseInProgress(true);
       setInputText('');
       addMessage(`${inputText}`, true);
-      const chatResponse = await axios.post(chatIntegrationURL, inputText); // Should send both the inputText (current user's question) and the 
+
+      // (TODO2 HERE):
+      const chatResponse = await axios.post(chatIntegrationURL, inputText); 
+
       addMessage(`${chatResponse.data}`, false);
 
       addUserMessage(inputText);
