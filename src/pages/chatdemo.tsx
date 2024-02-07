@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { convertCompilerOptionsFromJson } from 'typescript';
 
 interface Message {
   text: string;
@@ -14,6 +15,15 @@ const ChatDemo: React.FC = () => {
   const [responseInProgress, setResponseInProgress] = useState<boolean>(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
+  //hist messages:
+  const [historyMessages, setHistMessages] = useState<string[]>([]);
+  const addUserMessage = (text: string) => {
+    setHistMessages((prevMessages) => [...prevMessages, `USER: ${text}`]);
+  };
+  const addAssistantMessage = (text: string) => {
+    setHistMessages((prevMessages) => [...prevMessages, `ASSISTANT: ${text}`]);
+  };
+
   const addMessage = (text: string, isUser: boolean = false) => {
     setMessages((prevMessages) => [...prevMessages, { text, isUser }]);
   };
@@ -23,11 +33,16 @@ const ChatDemo: React.FC = () => {
     try {
       if (inputText.trim() === '' || responseInProgress) return;
 
+      // console.log("Message History needed here: ", historyMessages);
+      
       setResponseInProgress(true);
       setInputText('');
       addMessage(`${inputText}`, true);
-      const chatResponse = await axios.post(chatIntegrationURL, inputText);
+      const chatResponse = await axios.post(chatIntegrationURL, inputText); // Should send both the inputText (current user's question) and the 
       addMessage(`${chatResponse.data}`, false);
+
+      addUserMessage(inputText);
+      addAssistantMessage(chatResponse.data);
 
     } catch (err) {
       console.error(err);
