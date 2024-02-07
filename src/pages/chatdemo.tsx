@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { convertCompilerOptionsFromJson } from 'typescript';
 
 interface Message {
   text: string;
