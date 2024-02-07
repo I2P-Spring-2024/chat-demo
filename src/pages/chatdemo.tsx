@@ -34,6 +34,7 @@ const ChatDemo: React.FC = () => {
       if (inputText.trim() === '' || responseInProgress) return;
 
       // console.log("Message History needed here: ", historyMessages);
+      // Optional joining of the history message array into one string: const allMessagesString = historyMessages.join(' ');
       
       setResponseInProgress(true);
       setInputText('');
