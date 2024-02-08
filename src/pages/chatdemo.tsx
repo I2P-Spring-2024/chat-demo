@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
+enum Role {
+  user = "user",
+  assistant = "assistant"
+}
+
 interface Message {
-  text: string;
-  isUser: boolean;
+  role: Role,
+  content: string
 }
 
 const chatIntegrationURL = "https://ydf4hgmrbj.execute-api.us-east-2.amazonaws.com/chat-integration";
@@ -23,8 +28,8 @@ const ChatDemo: React.FC = () => {
     setHistMessages((prevMessages) => [...prevMessages, `ASSISTANT: ${text}`]);
   };
 
-  const addMessage = (text: string, isUser: boolean = false) => {
-    setMessages((prevMessages) => [...prevMessages, { text, isUser }]);
+  const addMessage = (role: Role, content: string) => {
+    setMessages((prevMessages) => [...prevMessages, { role, content }]);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,19 +45,19 @@ const ChatDemo: React.FC = () => {
       
       setResponseInProgress(true);
       setInputText('');
-      addMessage(`${inputText}`, true);
+      addMessage(Role.user, inputText);
 
       // (TODO2 HERE):
       const chatResponse = await axios.post(chatIntegrationURL, inputText); 
 
-      addMessage(`${chatResponse.data}`, false);
+      addMessage(Role.assistant, chatResponse.data);
 
       addUserMessage(inputText);
       addAssistantMessage(chatResponse.data);
 
     } catch (err) {
       console.error(err);
-      addMessage("ERROR OCCURED WHILE SENDING MESSAGE");
+      addMessage(Role.assistant, "ERROR OCCURED WHILE SENDING MESSAGE");
     } finally {
       setResponseInProgress(false);
     }
@@ -75,18 +80,18 @@ const ChatDemo: React.FC = () => {
           <div
             key={index}
             className={`flex ${
-              message.isUser ? 'justify-end' : 'justify-start'
+              message.role == Role.user ? 'justify-end' : 'justify-start'
             } mb-2`}
           >
             <div
               className={`${
-                message.isUser
+                message.role == Role.user
                   ? '  bg-purple-950 text-white rounded-bl-lg rounded-tr-lg rounded-tl-lg'
                   : ' bg-fuchsia-950 text-white rounded-br-lg rounded-tr-lg rounded-tl-lg' 
               } p-2 max-w-[85%] break-words text-left`}
               
             >
-              {message.text}
+              {message.content}
             </div>
           </div>
         ))}
