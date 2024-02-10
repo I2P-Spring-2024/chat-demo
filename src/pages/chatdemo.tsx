@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
+enum Role {
+  user = "user",
+  assistant = "assistant"
+}
+
 interface Message {
-  text: string;
-  isUser: boolean;
+  role: Role,
+  content: string
 }
 
 const chatIntegrationURL = "https://ydf4hgmrbj.execute-api.us-east-2.amazonaws.com/chat-integration";
@@ -14,8 +19,17 @@ const ChatDemo: React.FC = () => {
   const [responseInProgress, setResponseInProgress] = useState<boolean>(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  const addMessage = (text: string, isUser: boolean = false) => {
-    setMessages((prevMessages) => [...prevMessages, { text, isUser }]);
+  //hist messages:
+  const [historyMessages, setHistMessages] = useState<string[]>([]);
+  const addUserMessage = (text: string) => {
+    setHistMessages((prevMessages) => [...prevMessages, `USER: ${text}`]);
+  };
+  const addAssistantMessage = (text: string) => {
+    setHistMessages((prevMessages) => [...prevMessages, `ASSISTANT: ${text}`]);
+  };
+
+  const addMessage = (role: Role, content: string) => {
+    setMessages((prevMessages) => [...prevMessages, { role, content }]);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -23,15 +37,27 @@ const ChatDemo: React.FC = () => {
     try {
       if (inputText.trim() === '' || responseInProgress) return;
 
+      // console.log("Message History needed here: ", historyMessages);
+      // TODOs:
+      // TODO1: modify backend to receive the current user's message as well as the History message log 
+      // TODO2: send the curr user's message and Hist log on line 47
+      // Note: Optional joining of the history message array into one string: const allMessagesString = historyMessages.join(' ');
+      
       setResponseInProgress(true);
       setInputText('');
-      addMessage(`${inputText}`, true);
-      const chatResponse = await axios.post(chatIntegrationURL, inputText);
-      addMessage(`${chatResponse.data}`, false);
+      addMessage(Role.user, inputText);
+
+      // (TODO2 HERE):
+      const chatResponse = await axios.post(chatIntegrationURL, inputText); 
+
+      addMessage(Role.assistant, chatResponse.data);
+
+      addUserMessage(inputText);
+      addAssistantMessage(chatResponse.data);
 
     } catch (err) {
       console.error(err);
-      addMessage("ERROR OCCURED WHILE SENDING MESSAGE");
+      addMessage(Role.assistant, "ERROR OCCURED WHILE SENDING MESSAGE");
     } finally {
       setResponseInProgress(false);
     }
@@ -54,18 +80,18 @@ const ChatDemo: React.FC = () => {
           <div
             key={index}
             className={`flex ${
-              message.isUser ? 'justify-end' : 'justify-start'
+              message.role == Role.user ? 'justify-end' : 'justify-start'
             } mb-2`}
           >
             <div
               className={`${
-                message.isUser
+                message.role == Role.user
                   ? '  bg-purple-950 text-white rounded-bl-lg rounded-tr-lg rounded-tl-lg'
                   : ' bg-fuchsia-950 text-white rounded-br-lg rounded-tr-lg rounded-tl-lg' 
               } p-2 max-w-[85%] break-words text-left`}
               
             >
-              {message.text}
+              {message.content}
             </div>
           </div>
         ))}
