@@ -19,15 +19,6 @@ const ChatDemo: React.FC = () => {
   const [responseInProgress, setResponseInProgress] = useState<boolean>(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  //hist messages:
-  const [historyMessages, setHistMessages] = useState<string[]>([]);
-  const addUserMessage = (text: string) => {
-    setHistMessages((prevMessages) => [...prevMessages, `USER: ${text}`]);
-  };
-  const addAssistantMessage = (text: string) => {
-    setHistMessages((prevMessages) => [...prevMessages, `ASSISTANT: ${text}`]);
-  };
-
   const addMessage = (role: Role, content: string) => {
     setMessages((prevMessages) => [...prevMessages, { role, content }]);
   };
@@ -37,23 +28,21 @@ const ChatDemo: React.FC = () => {
     try {
       if (inputText.trim() === '' || responseInProgress) return;
 
-      // console.log("Message History needed here: ", historyMessages);
-      // TODOs:
-      // TODO1: modify backend to receive the current user's message as well as the History message log 
-      // TODO2: send the curr user's message and Hist log on line 47
-      // Note: Optional joining of the history message array into one string: const allMessagesString = historyMessages.join(' ');
-      
       setResponseInProgress(true);
       setInputText('');
+
       addMessage(Role.user, inputText);
+      
+      const chatResponse = await axios.post(chatIntegrationURL,
+        {userInput : inputText, historyMessages : messages},
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+      }); // TODO: Modify backend parameter to receive the current user message + history message
 
-      // (TODO2 HERE):
-      const chatResponse = await axios.post(chatIntegrationURL, inputText); 
-
+ 
       addMessage(Role.assistant, chatResponse.data);
-
-      addUserMessage(inputText);
-      addAssistantMessage(chatResponse.data);
 
     } catch (err) {
       console.error(err);
