@@ -47,9 +47,8 @@ const ChatDemo: React.FC = () => {
     } catch (err) {
       console.error(err);
       addMessage(Role.assistant, "ERROR OCCURED WHILE SENDING MESSAGE");
-    } finally {
-      setResponseInProgress(false);
     }
+    setResponseInProgress(false);
   };
 
   useEffect(() => {
