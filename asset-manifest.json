@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/frontend/static/css/main.2f38694b.css",
-    "main.js": "/frontend/static/js/main.bd98fd9a.js",
-    "static/js/787.9e9f4ffd.chunk.js": "/frontend/static/js/787.9e9f4ffd.chunk.js",
-    "index.html": "/frontend/index.html",
-    "main.2f38694b.css.map": "/frontend/static/css/main.2f38694b.css.map",
-    "main.bd98fd9a.js.map": "/frontend/static/js/main.bd98fd9a.js.map",
-    "787.9e9f4ffd.chunk.js.map": "/frontend/static/js/787.9e9f4ffd.chunk.js.map"
+    "main.css": "/chat-demo/static/css/main.2f38694b.css",
+    "main.js": "/chat-demo/static/js/main.157b4bed.js",
+    "static/js/787.a046f27c.chunk.js": "/chat-demo/static/js/787.a046f27c.chunk.js",
+    "index.html": "/chat-demo/index.html",
+    "main.2f38694b.css.map": "/chat-demo/static/css/main.2f38694b.css.map",
+    "main.157b4bed.js.map": "/chat-demo/static/js/main.157b4bed.js.map",
+    "787.a046f27c.chunk.js.map": "/chat-demo/static/js/787.a046f27c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2f38694b.css",
-    "static/js/main.bd98fd9a.js"
+    "static/js/main.157b4bed.js"
   ]
 }
